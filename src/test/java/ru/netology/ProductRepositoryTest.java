@@ -15,7 +15,7 @@ public class ProductRepositoryTest {
 
 
     Product book1 = new Book(1, "Зеленая миля", 599, "Стивен Кинг");
-    Product book2 = new Book(1, "Фантазеры", 250, "Николай Носов");
+    Product book2 = new Book(2, "Фантазеры", 250, "Николай Носов");
     Product book3 = new Book(3, "Колыбельная", 900, "Чак Паланик");
 
     Product phone1 = new Smartphone(4, "iPhone", 60_000, "Apple");
@@ -78,7 +78,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void deleteNonExistingById() {                                                 //удалить по Id  не существующий товар
+    public void deleteNonExistingById() {                                                 //удалить по Id не существующий товар
         ProductRepository repo = new ProductRepository();
         repo.save(book1);
         repo.save(book2);
