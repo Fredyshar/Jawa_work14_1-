@@ -16,7 +16,7 @@ public class ProductRepositoryTest {
 
     Product book1 = new Book(1, "Зеленая миля", 599, "Стивен Кинг");
     Product book2 = new Book(2, "Фантазеры", 250, "Николай Носов");
-    Product book3 = new Book(3, "Колыбельная", 900, "Чак Паланик");
+    Product book3 = new Book(1, "Колыбельная", 900, "Чак Паланик");
 
     Product phone1 = new Smartphone(4, "iPhone", 60_000, "Apple");
     Product phone2 = new Smartphone(5, "Nokia", 10_000, "Nokia crp.");
@@ -24,19 +24,19 @@ public class ProductRepositoryTest {
     Product phone4 = new Smartphone(7, "iPhone", 50_000, "Apple");
 
 
-    @BeforeEach
-    public void setup() {
-        manager.add(book1);
-        manager.add(book2);
-        manager.add(book3);
-        manager.add(phone1);
-        manager.add(phone2);
-        manager.add(phone3);
-        manager.add(phone4);
-    }
+//    @BeforeEach
+//    public void setup() {
+//        manager.add(book1);
+//        manager.add(book2);
+//        manager.add(book3);
+//        manager.add(phone1);
+//        manager.add(phone2);
+//        manager.add(phone3);
+//        manager.add(phone4);
+//    }
 
     @Test
-    public void showAllproducts() {                                                 //показать все товары
+    public void showAllproducts() {                                   //показать все товары
         ProductRepository repo = new ProductRepository();
         repo.save(book1);
         repo.save(book2);
@@ -55,7 +55,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void deleteAnExistingById() {                                                 //удалить по Id существующий товар
+    public void deleteAnExistingById() {                         //удалить по Id существующий товар
         ProductRepository repo = new ProductRepository();
         repo.save(book1);
         repo.save(book2);
@@ -70,15 +70,12 @@ public class ProductRepositoryTest {
         Product[] expected = {book1, book3, phone1, phone2, phone3, phone4};
         Product[] actual = repo.getProducts();
 
-
         Assertions.assertArrayEquals(expected, actual);
-//        System.out.println(Arrays.toString(actual));
-//        System.out.println(Arrays.toString(expected));
-
+        System.out.println(Arrays.toString(repo.getProducts()));
     }
 
     @Test
-    public void deleteNonExistingById() {                                                 //удалить по Id не существующий товар
+    public void deleteNonExistingById() {                       //удалить по Id не существующий товар
         ProductRepository repo = new ProductRepository();
         repo.save(book1);
         repo.save(book2);
@@ -88,16 +85,37 @@ public class ProductRepositoryTest {
         repo.save(phone3);
         repo.save(phone4);
 
-
         Assertions.assertThrows(RuntimeException.class, () -> {
             repo.removeById(10);
         });
-//        Product[] expected = {book1, book3};
-//        Product[] actual = repo.getProducts();
-//
-//        Assertions.assertArrayEquals(expected, actual);
-
 
     }
 
+    @Test
+    public void saveWithRepitId() {                    //копировать в массив товар с повторяющмся id
+        ProductRepository repo = new ProductRepository();
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            repo.save(book1);
+            repo.save(book2);
+            repo.save(book3);
+            repo.save(book1);
+        });
+        System.out.println(Arrays.toString(repo.getProducts()));
+    }
+
+    @Test
+    public void saveAll() {                        //добавление элемента в массив
+        ProductRepository repo = new ProductRepository();
+        repo.save(book1);
+        repo.save(book2);
+        repo.save(book3);
+        repo.save(phone1);
+
+
+        Product[] expected = {book1, book2, book3, phone1};
+        Product[] actual = repo.getProducts();
+
+        Assertions.assertArrayEquals(expected, actual);
+        System.out.println(Arrays.toString(repo.getProducts()));
+    }
 }

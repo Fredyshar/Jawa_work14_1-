@@ -10,11 +10,13 @@ public class ProductRepository {
 
         Product[] tmp = new Product[products.length + 1];
         for (int i = 0; i < products.length; i++) {
-
+            if (findById(product.id) == product) {
+                throw new AlreadyExistsException(
+                        "Element with id: " + product.getId() + " Уже существует! Нельзя добавить повторно! "
+                );
+            }
             tmp[i] = products[i];
-
         }
-
         tmp[tmp.length - 1] = product;
         products = tmp;
 
@@ -36,7 +38,7 @@ public class ProductRepository {
     public void removeById(int id) {
 
         if (findById(id) == null) {
-            throw new RuntimeException(
+            throw new NotFoundException(
                     "Element with id: " + id + " not found "
             );
         }

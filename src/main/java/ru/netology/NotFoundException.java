@@ -6,7 +6,7 @@ public class NotFoundException extends RuntimeException {
         super(msg);
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) throws Exception {
         Product book1 = new Book(1, "Зеленая миля", 599, "Стивен Кинг");
         Product book2 = new Book(2, "Фантазеры", 250, "Николай Носов");
         Product book3 = new Book(3, "Колыбельная", 900, "Чак Паланик");
@@ -23,7 +23,7 @@ public class NotFoundException extends RuntimeException {
         }
         /*finally {
             System.out.println("text");
-        } */
+        }
 
-    }
+    }*/
 }
