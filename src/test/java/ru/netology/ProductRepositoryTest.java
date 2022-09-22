@@ -15,7 +15,7 @@ public class ProductRepositoryTest {
 
 
     Product book1 = new Book(1, "Зеленая миля", 599, "Стивен Кинг");
-    Product book2 = new Book(2, "Фантазеры", 250, "Николай Носов");
+    Product book2 = new Book(1, "Фантазеры", 250, "Николай Носов");
     Product book3 = new Book(3, "Колыбельная", 900, "Чак Паланик");
 
     Product phone1 = new Smartphone(4, "iPhone", 60_000, "Apple");
@@ -51,6 +51,7 @@ public class ProductRepositoryTest {
         Product[] actual = repo.getProducts();
 
         Assertions.assertArrayEquals(expected, actual);
+        System.out.println(Arrays.toString(actual));
     }
 
     @Test
@@ -59,13 +60,42 @@ public class ProductRepositoryTest {
         repo.save(book1);
         repo.save(book2);
         repo.save(book3);
+        repo.save(phone1);
+        repo.save(phone2);
+        repo.save(phone3);
+        repo.save(phone4);
 
-        repo.removeById(book2.getId());
+        repo.removeById(2);
 
-        Product[] expected = {book1, book3};
+        Product[] expected = {book1, book3, phone1, phone2, phone3, phone4};
         Product[] actual = repo.getProducts();
 
+
         Assertions.assertArrayEquals(expected, actual);
+//        System.out.println(Arrays.toString(actual));
+//        System.out.println(Arrays.toString(expected));
+
+    }
+
+    @Test
+    public void deleteNonExistingById() {                                                 //удалить по Id  не существующий товар
+        ProductRepository repo = new ProductRepository();
+        repo.save(book1);
+        repo.save(book2);
+        repo.save(book3);
+        repo.save(phone1);
+        repo.save(phone2);
+        repo.save(phone3);
+        repo.save(phone4);
+
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            repo.removeById(10);
+        });
+//        Product[] expected = {book1, book3};
+//        Product[] actual = repo.getProducts();
+//
+//        Assertions.assertArrayEquals(expected, actual);
 
 
     }
